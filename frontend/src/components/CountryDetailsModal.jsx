@@ -27,7 +27,7 @@ function CountryDetailsModal({ country, onClose }) {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/countries/favorites",
+        "https://world-explorer-y556.onrender.com/api/countries/favorites",
         {
           countryCode: country.cca3,
           countryName: country.name.common,

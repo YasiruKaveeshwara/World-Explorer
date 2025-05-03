@@ -12,7 +12,7 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/auth/register", { username, email, password });
+      await axios.post("https://world-explorer-y556.onrender.com/api/auth/register", { username, email, password });
       toast.success("Registration successful! Please login.");
       navigate("/login");
     } catch (error) {

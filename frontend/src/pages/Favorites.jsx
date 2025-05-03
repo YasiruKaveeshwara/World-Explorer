@@ -21,7 +21,7 @@ function Favorites() {
       if (!token) return;
 
       try {
-        const response = await axios.get("http://localhost:5000/api/countries/favorites", {
+        const response = await axios.get("https://world-explorer-y556.onrender.com/api/countries/favorites", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -49,7 +49,7 @@ function Favorites() {
 
   const handleRemove = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/countries/favorites/${id}`, {
+      await axios.delete(`https://world-explorer-y556.onrender.com/api/countries/favorites/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFavorites((prev) => prev.filter((fav) => fav._id !== id));
