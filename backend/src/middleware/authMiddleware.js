@@ -1,21 +1,22 @@
-// server/middleware/authMiddleware.js
-const jwt = require('jsonwebtoken');
+
+const jwt = require("jsonwebtoken");
 
 const protect = (req, res, next) => {
-  let token = req.headers.authorization;
+  const authHeader = req.headers.authorization;
 
-  if (token && token.startsWith('Bearer')) {
-    try {
-      token = token.split(' ')[1];
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded;
-      next();
-    } catch (error) {
-      console.error(error);
-      res.status(401).json({ message: 'Not authorized, token failed' });
-    }
-  } else {
-    res.status(401).json({ message: 'No token, authorization denied' });
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Authorization header missing or malformed" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    console.error("JWT Error:", error.message);
+    return res.status(401).json({ message: "Invalid or expired token" });
   }
 };
 

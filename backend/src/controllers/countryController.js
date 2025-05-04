@@ -1,6 +1,5 @@
-const mongoose = require('mongoose');
-
-const Favorite = require('../models/Favorite');
+const mongoose = require("mongoose");
+const Favorite = require("../models/Favorite");
 
 // @desc    Add a country to favorites
 // @route   POST /api/countries/favorites
@@ -8,18 +7,33 @@ exports.addFavorite = async (req, res) => {
   try {
     const { countryCode, countryName, flag } = req.body;
 
+    // Check for required fields
+    if (!countryCode || !countryName) {
+      return res.status(400).json({ message: "countryCode and countryName are required" });
+    }
+
+    // Check for duplicates
+    const existing = await Favorite.findOne({
+      userId: req.user.id,
+      countryCode,
+    });
+
+    if (existing) {
+      return res.status(409).json({ message: "Country already in favorites" });
+    }
+
     const favorite = new Favorite({
       userId: req.user.id,
       countryCode,
       countryName,
-      flag
+      flag,
     });
 
     await favorite.save();
-    res.status(201).json({ message: 'Country added to favorites' });
+    return res.status(201).json({ message: "Country added to favorites" });
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Server Error');
+    console.error("Add Favorite Error:", error.message);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -27,11 +41,11 @@ exports.addFavorite = async (req, res) => {
 // @route   GET /api/countries/favorites
 exports.getFavorites = async (req, res) => {
   try {
-    const favorites = await Favorite.find({ userId: req.user.id });
-    res.json(favorites);
+    const favorites = await Favorite.find({ userId: req.user.id }).sort({ createdAt: -1 });
+    return res.status(200).json(favorites);
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Server Error');
+    console.error("Get Favorites Error:", error.message);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -42,23 +56,23 @@ exports.removeFavorite = async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: 'Invalid ID format' });
+      return res.status(400).json({ message: "Invalid favorite ID format" });
     }
 
     const favorite = await Favorite.findById(id);
 
     if (!favorite) {
-      return res.status(404).json({ message: 'Favorite not found' });
+      return res.status(404).json({ message: "Favorite not found" });
     }
 
     if (favorite.userId.toString() !== req.user.id) {
-      return res.status(401).json({ message: 'Not authorized' });
+      return res.status(403).json({ message: "Access denied: not your favorite" });
     }
 
-    await Favorite.deleteOne({ _id: id });
-    res.json({ message: 'Favorite removed' });
+    await favorite.deleteOne();
+    return res.status(200).json({ message: "Favorite removed successfully" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server Error' });
+    console.error("Remove Favorite Error:", error.message);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
