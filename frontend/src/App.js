@@ -1,7 +1,8 @@
-// src/App.jsx
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { useContext } from "react";
+
+import { AuthContext } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -10,19 +11,22 @@ import Favorites from "./pages/Favorites";
 import NotFound from "./pages/NotFound";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("authToken"));
+  const { token } = useContext(AuthContext);
 
   return (
     <Router>
-      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
-      <ToastContainer position='top-right' autoClose={3000} />
+      <Navbar />
+      <ToastContainer position="top-right" autoClose={3000} />
 
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login onLogin={() => setIsLoggedIn(true)} />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/favorites' element={<Favorites />} />
-        <Route path='*' element={<NotFound />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/favorites"
+          element={token ? <Favorites /> : <Navigate to="/login" />}
+        />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );

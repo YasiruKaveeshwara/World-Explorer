@@ -1,23 +1,24 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import Lottie from "react-lottie-player";
-import globeAnimation from "../assets/animations/globe4.json"; 
+import globeAnimation from "../assets/animations/globe4.json";
 import { toast } from "react-toastify";
+import { AuthContext } from "../context/AuthContext";
 
-function Navbar({ isLoggedIn, setIsLoggedIn }) {
+function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { token, logout } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!localStorage.getItem("authToken") && location.pathname === "/favorites") {
+    if (!token && location.pathname === "/favorites") {
       navigate("/");
     }
-  }, [location.pathname, navigate]);
+  }, [location.pathname, navigate, token]);
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    setIsLoggedIn(false);
+    logout();
     toast.success("Logged out successfully!");
     navigate("/");
   };
@@ -31,7 +32,6 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
       <div className='flex items-center justify-between px-6 py-1 mx-auto max-w-7xl'>
         <Link to='/' className='flex items-center gap-2'>
           <Lottie loop play animationData={globeAnimation} className='w-16 h-16 sm:w-16 sm:h-16 filter invert brightness-200' />
-
           <span className='text-2xl font-bold tracking-wide text-white drop-shadow-sm'>World Explorer</span>
         </Link>
 
@@ -40,13 +40,13 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
             Home
           </Link>
 
-          {isLoggedIn && (
+          {token && (
             <Link to='/favorites' className='transition-all hover:text-blue-600'>
               Favorites
             </Link>
           )}
 
-          {!isLoggedIn ? (
+          {!token ? (
             <Link to='/login' className='transition-all hover:text-green-600'>
               Login
             </Link>
