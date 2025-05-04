@@ -1,5 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
+
 import { useEffect, useContext } from "react";
 import Lottie from "react-lottie-player";
 import globeAnimation from "../assets/animations/globe4.json";

@@ -1,159 +1,145 @@
 # World Explorer 🌍
 
 ## Project Title
+
 **World Explorer – Discover and Save Countries**
 
 ## Overview 🧭
-**World Explorer** is a full-stack web application that allows users to explore countries around the world with animated UI, region-based filtering, sorting (A–Z / Z–A), and favorite management. Authenticated users can save countries to their favorites and view them later. It uses the REST Countries API for data and MongoDB to store user favorites.
+
+**World Explorer** is a full-stack MERN application that lets users explore and discover countries from around the world with stunning animated UI, intelligent filtering, search, and a favorite system. Authenticated users can save countries for later and view detailed information in a beautiful modal layout.
 
 ## Live Demo 🔗
-[Visit World Explorer](https://your-deployed-url.com)
+
+[Visit World Explorer](https://world-explorer-chi.vercel.app)
+
+## Features ✅
+
+- 🌐 Explore a global list of countries
+- 🔍 Live search by country name
+- 🌍 Region-based filtering (Africa, Americas, etc.)
+- 🔁 Sort A–Z or Z–A
+- ❤️ JWT-authenticated favorite saving & removal
+- 📱 Mobile-first, fully responsive layout
+- ❌ 404 page with animated background
+- ⚙️ Smooth performance and optimized loading
 
 ## Folder Structure 📁
 
-### Backend (Node.js + Express + MongoDB) 🔧
+### Backend (Node.js + Express + MongoDB)
+
 ```
 /backend
-├── controllers/
-│   └── authController.js
-│   └── favoriteController.js
-├── models/
-│   └── User.js
-│   └── Favorite.js
-├── routes/
-│   └── authRoutes.js
-│   └── favoriteRoutes.js
-├── middleware/
-│   └── authMiddleware.js
-├── config/
-│   └── db.js
+├── src/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── middleware/
+│   ├── config/
+│   ├── server.js
 ├── .env
-├── server.js
 └── package.json
 ```
 
-### Frontend (React + Tailwind CSS + Framer Motion) 💻
+### Frontend (React + Tailwind CSS + Framer Motion)
+
 ```
 /frontend
 ├── src/
 │   ├── assets/
 │   ├── components/
-│   │   └── Navbar.jsx
-│   │   └── SearchBar.jsx
-│   │   └── FilterDropdown.jsx
-│   │   └── Loader.jsx
-│   │   └── CountryCard.jsx
-│   │   └── CountryDetailsModal.jsx
 │   ├── pages/
-│   │   └── Home.jsx
-│   │   └── Login.jsx
-│   │   └── Register.jsx
-│   │   └── Favorites.jsx
-│   │   └── NotFound.jsx
 │   ├── App.jsx
 │   ├── main.jsx
 ├── public/
-│   └── images/
-│   │   └── regions/ 
 └── package.json
 ```
 
 ## Technologies Used 🛠️
 
 ### Backend:
-* Node.js
-* Express.js
-* MongoDB + Mongoose
-* JWT (Authentication)
-* CORS
-* dotenv
+
+- Node.js
+- Express.js
+- MongoDB + Mongoose
+- JWT Auth
+- CORS
+- dotenv
 
 ### Frontend:
-* React.js (Vite)
-* Tailwind CSS
-* Framer Motion
-* Axios
-* Lottie
-* React Toastify
-* REST Countries API
 
-## Features ✅
-* 🌐 Explore all countries visually
-* 🔍 Search by name
-* 🌍 Filter by region (Africa, Americas, etc.)
-* 🔁 Sort countries (A–Z, Z–A)
-* ❤️ Save favorites (JWT protected)
-* 👤 Auth system (Register / Login)
-* 📱 Fully responsive & animated UI
-* ❌ 404 Not Found with themed background
-* 💡 Modern UI (glassmorphism, smooth animations)
-
-## Authentication Flow 🔒
-1. User registers and logs in using email/password.
-2. JWT token is stored in `localStorage`.
-3. Protected routes (like `/favorites`) are guarded.
-4. Token is sent in `Authorization` header to access/modify favorites.
+- React
+- Tailwind CSS
+- Framer Motion
+- Axios
+- Lottie
+- React Toastify
+- REST Countries API
 
 ## API Routes 🧪
 
-### Backend API:
-| Route | Method | Description |
-|-------|--------|-------------|
-| `/api/auth/register` | POST | Register a new user |
-| `/api/auth/login` | POST | Login and get JWT token |
-| `/api/countries/favorites` | GET | Get all user's favorites |
-| `/api/countries/favorites` | POST | Add a country to favorites |
-| `/api/countries/favorites/:id` | DELETE | Remove from favorites |
+### Backend:
+
+| Route                          | Method | Description                   |
+| ------------------------------ | ------ | ----------------------------- |
+| `/api/auth/register`           | POST   | Register new user             |
+| `/api/auth/login`              | POST   | Login and get JWT token       |
+| `/api/countries/favorites`     | GET    | Get user's saved favorites    |
+| `/api/countries/favorites`     | POST   | Add country to favorites      |
+| `/api/countries/favorites/:id` | DELETE | Remove country from favorites |
+
+## Authentication Flow 🔒
+
+1. User registers or logs in.
+2. JWT is stored in localStorage.
+3. Favorites are accessed using Bearer token.
+4. Token expires? → Graceful error fallback shown.
 
 ## Getting Started 🚀
 
-### Prerequisites 📦
-* Node.js
-* MongoDB
-* npm or yarn
+### Prerequisites:
 
-### Setup Instructions 🔧
+- Node.js
+- MongoDB (local or Atlas)
+- npm or yarn
+
+### Backend Setup:
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/world-explorer.git
-cd world-explorer
-
-# Install backend dependencies
 cd backend
 npm install
-
-# Configure environment variables
-touch .env
-# Add:
-# MONGO_URI=your_mongo_connection
-# JWT_SECRET=your_jwt_secret
-# PORT=5000
-
-# Start backend server
-npm run dev
 ```
 
-```bash
-# In a new terminal, setup frontend
-cd ../frontend
-npm install
+Create .env:
 
-# Start frontend
-npm run dev
-```
-
-Visit: `http://localhost:3000` 
-
-### Environment Variables (Backend) 💡
 ```env
 PORT=5000
-MONGO_URI=mongodb+srv://<user>:<pass>@cluster.mongodb.net/world-explorer
+MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=yourStrongSecretKey
 ```
 
-## Testing 🧪
-Use Postman or built-in UI to test endpoints. Protected routes require a Bearer token.
+Start server:
 
-## Auther 🤝
+```bash
+npm run dev
+```
+
+### Frontend Setup:
+
+```bash
+cd ../frontend
+npm install
+npm run dev
+```
+
+Visit: `http://localhost:3000`
+
+## Testing 🧪
+
+```bash
+cd backend
+npm test
+```
+
+## Author 🤝
+
 Yasiru Kaveeshwara

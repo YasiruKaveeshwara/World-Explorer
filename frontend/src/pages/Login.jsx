@@ -21,6 +21,8 @@ function Login({ onLogin }) {
 
       const { token } = response.data;
       login(token);
+      localStorage.setItem("authToken", token); // NOT JSON.stringify(token)
+
       toast.success("Login successful!");
       navigate("/");
     } catch (error) {
@@ -32,7 +34,7 @@ function Login({ onLogin }) {
   return (
     <div className='relative flex items-center justify-center min-h-screen px-4'>
       {/* Background image */}
-      <img src='/images/regions/world.jpg' alt='login-bg' className='absolute inset-0 object-cover w-full h-full' />
+      <img src='/images/regions/world.webp' alt='login-bg' className='absolute inset-0 object-cover w-full h-full' />
       {/* Dark overlay */}
       <div className='absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm' />
 

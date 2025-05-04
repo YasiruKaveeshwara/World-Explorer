@@ -1,5 +1,7 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
+
+
 
 function CountryCard({ country }) {
   return (
@@ -8,8 +10,10 @@ function CountryCard({ country }) {
       whileHover={{ scale: 1.03 }}>
       <div className='overflow-hidden rounded-t-2xl'>
         <motion.img
+          loading='lazy'
           src={country.flags.svg}
           alt={`${country.name.common} flag`}
+          decoding="async"
           className='object-cover w-full h-40 transition-transform duration-500 hover:scale-110'
         />
       </div>

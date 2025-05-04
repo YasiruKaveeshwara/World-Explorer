@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
+
 
 function NotFound() {
   return (
     <div className='relative flex items-center justify-center min-h-screen overflow-hidden text-center'>
       {/* Background Image */}
-      <img src='/images/regions/world.jpg' alt='404-bg' className='absolute inset-0 object-cover w-full h-full' />
+      <img src='/images/regions/world.webp' alt='404-bg' className='absolute inset-0 object-cover w-full h-full' />
       <div className='absolute inset-0 bg-black bg-opacity-60 backdrop-blur-sm' />
 
       {/* Content */}

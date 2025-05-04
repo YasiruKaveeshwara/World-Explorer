@@ -1,5 +1,6 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
+
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaHeart, FaTimes } from "react-icons/fa";
@@ -34,9 +35,7 @@ function CountryDetailsModal({ country, onClose }) {
           flag: country.flags.svg,
         },
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       toast.success("Country added to your favorites!");
@@ -46,14 +45,20 @@ function CountryDetailsModal({ country, onClose }) {
     }
   };
 
+  const formatObject = (obj) =>
+    obj
+      ? Object.values(obj)
+          .map((item) => item.name || item)
+          .join(", ")
+      : "N/A";
+
   return (
     <motion.div
       className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-20 backdrop-blur-sm'
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}>
-      <div className='relative w-full max-w-lg p-6 mx-4 bg-white shadow-2xl bg-opacity-80 rounded-2xl'>
-        {/* Close Button */}
+      <div className='relative w-full max-w-lg p-6 mx-4 bg-white shadow-2xl bg-opacity-80 rounded-2xl overflow-y-auto max-h-[90vh]'>
         <button
           onClick={onClose}
           className='absolute p-2 text-2xl text-white transition bg-red-500 rounded-full shadow-lg hover:bg-red-600 top-4 right-4'
@@ -61,34 +66,72 @@ function CountryDetailsModal({ country, onClose }) {
           <FaTimes />
         </button>
 
-        {/* Country Flag */}
-        <img src={country.flags.svg} alt={country.name.common} className='object-cover w-full h-48 mb-4 rounded-xl' />
+        <img src={country.flags.svg} alt={country.name.common} className='object-cover w-full mb-4 rounded-xl' />
 
-        {/* Country Info */}
-        <h2 className='mb-4 text-2xl font-bold text-blue-600'>{country.name.common}</h2>
+        <h2 className='mb-4 text-2xl font-bold text-blue-600'>{country.name.official}</h2>
 
-        <div className='mb-6 space-y-2 text-sm text-gray-600'>
-          <p>
-            <span className='font-semibold'>Official Name:</span> {country.name.official}
-          </p>
-          <p>
-            <span className='font-semibold'>Capital:</span> {country.capital ? country.capital[0] : "N/A"}
-          </p>
-          <p>
-            <span className='font-semibold'>Region:</span> {country.region}
-          </p>
-          <p>
-            <span className='font-semibold'>Subregion:</span> {country.subregion}
-          </p>
-          <p>
-            <span className='font-semibold'>Population:</span> {country.population.toLocaleString()}
-          </p>
-          <p>
-            <span className='font-semibold'>Languages:</span> {country.languages ? Object.values(country.languages).join(", ") : "N/A"}
-          </p>
+        <div className='grid grid-cols-1 mx-4 text-sm text-gray-700 sm:grid-cols-2 gap-y-3'>
+          <div>
+            <strong>Capital:</strong>
+          </div>
+          <div>{country.capital?.[0] || "N/A"}</div>
+          <div>
+            <strong>Region:</strong>
+          </div>
+          <div>{country.region}</div>
+          <div>
+            <strong>Subregion:</strong>
+          </div>
+          <div>{country.subregion}</div>
+          <div>
+            <strong>Population:</strong>
+          </div>
+          <div>{country.population.toLocaleString()}</div>
+          <div>
+            <strong>Area:</strong>
+          </div>
+          <div>{country.area?.toLocaleString()} km²</div>
+          <div>
+            <strong>Timezones:</strong>
+          </div>
+          <div>{country.timezones?.join(", ")}</div>
+          <div>
+            <strong>Languages:</strong>
+          </div>
+          <div>{country.languages ? Object.values(country.languages).join(", ") : "N/A"}</div>
+          <div>
+            <strong>Currencies:</strong>
+          </div>
+          <div>{formatObject(country.currencies)}</div>
+          <div>
+            <strong>Top Level Domain:</strong>
+          </div>
+          <div>{country.tld?.join(", ") || "N/A"}</div>
+          <div>
+            <strong>Dial Code:</strong>
+          </div>
+          <div>
+            {country.idd?.root}
+            {country.idd?.suffixes?.[0] || ""}
+          </div>
+          <div>
+            <strong>Borders:</strong>
+          </div>
+          <div>{country.borders?.join(", ") || "None"}</div>
+          <div>
+            <strong>Driving Side:</strong>
+          </div>
+          <div>{country.car?.side || "N/A"}</div>
+          <div>
+            <strong>Start of Week:</strong>
+          </div>
+          <div>{country.startOfWeek || "N/A"}</div>
+          <div>
+            <strong>UN Member:</strong>
+          </div>
+          <div>{country.unMember ? "Yes" : "No"}</div>
         </div>
 
-        {/* Favorite Button  */}
         <div className='absolute bottom-4 right-4'>
           <button
             onClick={handleAddFavorite}

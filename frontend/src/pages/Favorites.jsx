@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
+
 import { toast } from "react-toastify";
 import CountryDetailsModal from "../components/CountryDetailsModal";
 import Loader from "../components/Loader";
@@ -14,7 +15,8 @@ function Favorites() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("");
 
-  const token = localStorage.getItem("authToken");
+  const token = localStorage.getItem("authToken")?.replace(/^"(.*)"$/, "$1");
+
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -71,11 +73,20 @@ function Favorites() {
     );
   }
 
+  if (token && favorites.length === 0 && !isLoading) {
+    return (
+      <div className='px-6 pt-24 mx-auto text-center max-w-7xl'>
+        <h1 className='mb-6 text-2xl text-white'>Your session may have expired. Please log in again.</h1>
+      </div>
+    );
+  }
+  
+
   return (
     <div className='relative min-h-screen px-6 pt-24 pb-16'>
       {/* Background */}
       <motion.div className='fixed inset-0 -z-10' initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
-        <img src='/images/regions/world.jpg' className='object-cover w-full h-full' alt='bg' />
+        <img src='/images/regions/world.webp' className='object-cover w-full h-full' alt='bg' />
         <div className='absolute inset-0 bg-black bg-opacity-50 backdrop-blur-md' />
       </motion.div>
 

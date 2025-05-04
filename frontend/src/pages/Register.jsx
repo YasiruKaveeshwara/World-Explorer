@@ -38,7 +38,7 @@ function Register() {
 
   return (
     <div className='relative flex items-center justify-center min-h-screen px-4'>
-      <img src='/images/regions/world.jpg' alt='register-bg' className='absolute inset-0 object-cover w-full h-full' />
+      <img src='/images/regions/world.webp' alt='register-bg' className='absolute inset-0 object-cover w-full h-full' />
       <div className='absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm' />
 
       <div className='relative z-10 w-full max-w-md px-6 py-8 shadow-xl bg-white/10 rounded-2xl'>
