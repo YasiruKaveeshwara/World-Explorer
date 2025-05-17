@@ -5,7 +5,9 @@ import { motion } from 'framer-motion';
 
 function CountryCard({ country }) {
   return (
+    
     <motion.div
+    data-testid="country-card"
       className='overflow-hidden bg-white rounded-2xl shadow-xl cursor-pointer transform transition-all bg-opacity-70 duration-300 hover:scale-[1.03]'
       whileHover={{ scale: 1.03 }}>
       <div className='overflow-hidden rounded-t-2xl'>

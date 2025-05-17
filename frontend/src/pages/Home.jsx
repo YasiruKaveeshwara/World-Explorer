@@ -205,7 +205,7 @@ function Home() {
                   hidden: { opacity: 0, y: 20 },
                   show: { opacity: 1, y: 0 },
                 }}>
-                <CountryCard country={country} />
+                <CountryCard key={country.cca3} country={country} />
               </motion.div>
             ))}
           </motion.div>

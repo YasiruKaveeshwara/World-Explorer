@@ -25,8 +25,7 @@ describe("Auth Routes", () => {
   });
 });
 
-
 afterAll(async () => {
-  const mongoose = require('mongoose');
+  const mongoose = require("mongoose");
   await mongoose.connection.close();
 });
